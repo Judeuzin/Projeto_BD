@@ -1,18 +1,20 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import DATABASE
-
+import random
 
 ###### VARIAVEIS GLOBAIS #########
 id_personagem = 2
-id_prox_drop = 0
+#tipo_drop = 0, arma
+#tipo_drop = 1, roupa
+tipo_drop = 0
 id_local = 1
-GANHOU_A_LUTA = True
-Tipo_Proximo_Drop = True ## Arma se true, Roupa se false
+Bonus_monstro = 1.75
 
 #################### CONSTANTES ###################
 
-
+GANHAR_JOGADOR = 0
+GANHAR_MONSTRO = 1
 
 #### OPERAÇÃO REALIZADA NO BD ########
 
@@ -23,6 +25,7 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
         super(Ui_Tela_Lugar, self).__init__()
         self.setupUi()
     def setupUi(self):
+        self.ganhou_luta = True
         self.setObjectName("Tela_Lugar")
         self.resize(650, 500)
         self.centralwidget = QtWidgets.QWidget(self)
@@ -165,6 +168,19 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
         self.botao_fechar.clicked.connect(self.Md_Tela_Inicial)
         self.botao_lutar.clicked.connect(self.Md_Tela_Atk_Monstro)
         self.botao_inventario.clicked.connect(self.Md_Tela_Inventario)
+        self.botao_voltar_nivel.clicked.connect(self.voltar_nivel)
+        self.botao_avancar_nivel.clicked.connect(self.avancar_nivel)
+
+    def avancar_nivel(self):
+        LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+        DATABASE.avancar_local(id_personagem, NIVEL_LOCAL)
+        SQL_tela_lugar()
+
+
+    def voltar_nivel(self):
+        LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+        DATABASE.voltar_local(id_personagem, NIVEL_LOCAL)
+        SQL_tela_lugar()
 
     def Md_Tela_Inventario(self):
         NIVEL_ROUPA, NIVEL_ARMA = DATABASE.itens_usando(id_personagem)
@@ -178,26 +194,31 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
                     tela_inventario.label_arma_nivel_1.setText("Nivel: "+ str(linha[1]))
                     tela_inventario.label_arma_atk_1.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_1.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_arma_1.setCheckable(True)
                 elif Contagem == 2:
                     tela_inventario.label_arma_nome_2.setText("Nome:\n" + linha[0])
                     tela_inventario.label_arma_nivel_2.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_arma_atk_2.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_2.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_arma_2.setCheckable(True)
                 elif Contagem == 3:
                     tela_inventario.label_arma_nome_3.setText("Nome:\n" + linha[0])
                     tela_inventario.label_arma_nivel_3.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_arma_atk_3.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_3.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_arma_3.setCheckable(True)
                 elif Contagem == 4:
                     tela_inventario.label_arma_nome_4.setText("Nome:\n" + linha[0])
                     tela_inventario.label_arma_nivel_4.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_arma_atk_4.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_4.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_arma_4.setCheckable(True)
                 elif Contagem == 5:
                     tela_inventario.label_arma_nome_5.setText("Nome:\n" + linha[0])
                     tela_inventario.label_arma_nivel_5.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_arma_atk_5.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_5.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_arma_4.setCheckable(True)
                 Contagem = Contagem + 1
                 NUMERO_ITENS = NUMERO_ITENS-1
             if Contagem < 6:
@@ -205,21 +226,25 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
                 tela_inventario.label_arma_nivel_5.setText("")
                 tela_inventario.label_arma_atk_5.setText("")
                 tela_inventario.label_arma_def_5.setText("")
+                tela_inventario.botao_selecionar_arma_5.setCheckable(False)
             if Contagem < 5:
                 tela_inventario.label_arma_nome_4.setText("BLOQUEADO")
                 tela_inventario.label_arma_nivel_4.setText("")
                 tela_inventario.label_arma_atk_4.setText("")
                 tela_inventario.label_arma_def_4.setText("")
+                tela_inventario.botao_selecionar_arma_4.setCheckable(False)
             if Contagem < 4:
                 tela_inventario.label_arma_nome_3.setText("BLOQUEADO")
                 tela_inventario.label_arma_nivel_3.setText("")
                 tela_inventario.label_arma_atk_3.setText("")
                 tela_inventario.label_arma_def_3.setText("")
+                tela_inventario.botao_selecionar_arma_3.setCheckable(False)
             if Contagem < 3:
                 tela_inventario.label_arma_nome_2.setText("BLOQUEADO")
                 tela_inventario.label_arma_nivel_2.setText("")
                 tela_inventario.label_arma_atk_2.setText("")
                 tela_inventario.label_arma_def_2.setText("")
+                tela_inventario.botao_selecionar_arma_2.setCheckable(False)
         NUMERO_ITENS, LINHAS_DA_TABELA = DATABASE.roupas_que_possui(id_personagem)
         Contagem = 1
         while NUMERO_ITENS > 0:
@@ -229,26 +254,31 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
                     tela_inventario.label_roupa_nivel_1.setText("Nivel: "+ str(linha[1]))
                     tela_inventario.label_roupa_atk_1.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_roupa_def_1.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_roupa_1.setCheckable(True)
                 elif Contagem == 2:
                     tela_inventario.label_roupa_nome_2.setText("Nome:\n" + linha[0])
                     tela_inventario.label_roupa_nivel_2.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_roupa_atk_2.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_roupa_def_2.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_roupa_2.setCheckable(True)
                 elif Contagem == 3:
                     tela_inventario.label_roupa_nome_3.setText("Nome:\n" + linha[0])
                     tela_inventario.label_roupa_nivel_3.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_roupa_atk_3.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_roupa_def_3.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_roupa_3.setCheckable(True)
                 elif Contagem == 4:
                     tela_inventario.label_roupa_nome_4.setText("Nome:\n" + linha[0])
                     tela_inventario.label_roupa_nivel_4.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_roupa_atk_4.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_roupa_def_4.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_roupa_4.setCheckable(True)
                 elif Contagem == 5:
                     tela_inventario.label_roupa_nome_5.setText("Nome:\n" + linha[0])
                     tela_inventario.label_roupa_nivel_5.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_roupa_atk_5.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_roupa_def_5.setText("Defesa: " + str(linha[3]))
+                    tela_inventario.botao_selecionar_roupa_5.setCheckable(True)
                 Contagem = Contagem + 1
                 NUMERO_ITENS = NUMERO_ITENS-1
             if Contagem < 6:
@@ -256,25 +286,51 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
                 tela_inventario.label_roupa_nivel_5.setText("")
                 tela_inventario.label_roupa_atk_5.setText("")
                 tela_inventario.label_roupa_def_5.setText("")
+                tela_inventario.botao_selecionar_roupa_5.setCheckable(False)
             if Contagem < 5:
                 tela_inventario.label_roupa_nome_4.setText("BLOQUEADO")
                 tela_inventario.label_roupa_nivel_4.setText("")
                 tela_inventario.label_roupa_atk_4.setText("")
                 tela_inventario.label_roupa_def_4.setText("")
+                tela_inventario.botao_selecionar_roupa_4.setCheckable(False)
             if Contagem < 4:
                 tela_inventario.label_roupa_nome_3.setText("BLOQUEADO")
                 tela_inventario.label_roupa_nivel_3.setText("")
                 tela_inventario.label_roupa_atk_3.setText("")
                 tela_inventario.label_roupa_def_3.setText("")
+                tela_inventario.botao_selecionar_roupa_3.setCheckable(False)
             if Contagem < 3:
                 tela_inventario.label_roupa_nome_2.setText("BLOQUEADO")
                 tela_inventario.label_roupa_nivel_2.setText("")
                 tela_inventario.label_roupa_atk_2.setText("")
                 tela_inventario.label_roupa_def_2.setText("")
+                tela_inventario.botao_selecionar_roupa_2.setCheckable(False)
         widget.setCurrentWidget(tela_inventario)
 
     def Md_Tela_Atk_Monstro(self):
+        NOME_MONSTRO, ATK_MONSTRO, DEF_MONSTRO, NIVEL_MONSTRO = DATABASE.dados_monstro(id_personagem)
+        tela_atk_monstro.label_nome_monstro.setText(NOME_MONSTRO)
+        tela_atk_monstro.label_nivel_monstro.setText(str(NIVEL_MONSTRO))
+        tela_atk_monstro.label_atk_monstro.setText(str(ATK_MONSTRO))
+        tela_atk_monstro.label_def_monstro.setText(str(DEF_MONSTRO))
 
+        JOGADOR, NIVEL_JOGADOR, ARMA, ROUPA, ATK, DEF = DATABASE.dados_jogador(id_personagem)
+        tela_atk_monstro.label_nome_jogador.setText(JOGADOR)
+        tela_atk_monstro.label_nivel_jogador.setText(str(NIVEL_JOGADOR))
+        tela_atk_monstro.label_atk_jogador.setText(str(ATK))
+        tela_atk_monstro.label_def_jogador.setText(str(DEF))
+
+        tela_atk_monstro.label_vitoria.setText("")
+        tela_atk_monstro.label_derrota.setText("")
+        if self.ganhou_luta == True:
+            NOME_DROP, NIVEL_DROP, ATAQUE_DROP, DEFESA_DROP, self.tipo_drop, self.id_prox_drop = DATABASE.prox_drop(id_personagem)
+            tela_atk_monstro.label_nome_proximo_drop.setText("Nome:\n" + NOME_DROP)
+            tela_atk_monstro.label_nivel_proximo_drop.setText("Nível: " + str(NIVEL_DROP))
+            tela_atk_monstro.label_atk_proximo_drop.setText("Ataque: " + str(ATAQUE_DROP))
+            tela_atk_monstro.label_def_proximo_drop.setText("Defesa: " + str(DEFESA_DROP))
+            tela_atk_monstro.label_proximo_drop.setText("Proximo Drop:")
+            self.ganhou_luta = False
+        tela_atk_monstro.botao_atacar.blockSignals(False)
         widget.setCurrentWidget(tela_atk_monstro)
     def Md_Tela_Inicial(self):
         sys.exit(app.exec_())
@@ -474,8 +530,28 @@ class Ui_Tela_Atq_Monst(QtWidgets.QMainWindow):
 
         #### DEFINIR FUNÇOES DOS BOTÕES ######
         self.botao_retorna_lugar.clicked.connect(self.Md_Tela_Lugar)
+        self.botao_atacar.clicked.connect(self.Resultado_luta)
+
+    def Resultado_luta(self):
+        NOME_MONSTRO, ATK_MONSTRO, DEF_MONSTRO, NIVEL_MONSTRO = DATABASE.dados_monstro(id_personagem)
+        NOME_JOGADOR, NIVEL_JOGADOR, ARMA, ROUPA, ATK, DEF = DATABASE.dados_jogador(id_personagem)
+        Probabilidade_jogador = ATK+DEF
+        Probabilidade_monstro = ATK_MONSTRO + DEF_MONSTRO
+
+        Resultados_possiveis = [GANHAR_JOGADOR, GANHAR_MONSTRO]
+        Vencedor = random.choices(Resultados_possiveis, weights= (Probabilidade_jogador,Probabilidade_monstro*1.75), k=1)
+        if Vencedor[0] == GANHAR_JOGADOR:
+            self.label_vitoria.setText("Vitória")
+            tela_lugar.ganhou_luta = True
+            self.label_proximo_drop.setText("Você ganhou!")
+            DATABASE.inserir_drop(id_personagem, tela_lugar.id_prox_drop, tela_lugar.tipo_drop)
+            DATABASE.nivel_up(id_personagem)
+        elif Vencedor[0] == GANHAR_MONSTRO:
+            self.label_derrota.setText("Derrota")
+        self.botao_atacar.blockSignals(True)
 
     def Md_Tela_Lugar(self):
+        SQL_tela_lugar()
         widget.setCurrentWidget(tela_lugar)
 
     def retranslateUi(self, Tela_Atq_Monst):
@@ -507,6 +583,8 @@ class Ui_Tela_inventario(QtWidgets.QMainWindow):
         super(Ui_Tela_inventario, self).__init__()
         self.setupUi()
     def setupUi(self):
+        self.arma_utilizada = 1
+        self.roupa_utilizada = 1
         self.setObjectName("Tela_inventario")
         self.resize(650, 500)
         self.label_nome = QtWidgets.QLabel(self)
@@ -964,11 +1042,29 @@ class Ui_Tela_inventario(QtWidgets.QMainWindow):
         self.botao_retorna_lugar.clicked.connect(self.Md_Tela_Lugar)
 
     def Md_Tela_Lugar(self):
+        if(self.botao_selecionar_arma_1.isChecked()):
+            self.arma_utilizada = 1
+        elif (self.botao_selecionar_arma_2.isChecked()):
+            self.arma_utilizada = 2
+        elif (self.botao_selecionar_arma_3.isChecked()):
+            self.arma_utilizada = 3
+        elif (self.botao_selecionar_arma_4.isChecked()):
+            self.arma_utilizada = 4
+        elif (self.botao_selecionar_arma_5.isChecked()):
+            self.arma_utilizada = 5
+        if (self.botao_selecionar_roupa_1.isChecked()):
+            self.roupa_utilizada = 1
+        elif (self.botao_selecionar_roupa_2.isChecked()):
+            self.roupa_utilizada = 2
+        elif (self.botao_selecionar_roupa_3.isChecked()):
+            self.roupa_utilizada = 3
+        elif (self.botao_selecionar_roupa_4.isChecked()):
+            self.roupa_utilizada = 4
+        elif (self.botao_selecionar_roupa_5.isChecked()):
+            self.roupa_utilizada = 5
+        DATABASE.atualizar_armas(id_personagem,self.arma_utilizada,self.roupa_utilizada)
+        SQL_tela_lugar()
         widget.setCurrentWidget(tela_lugar)
-        if self.botao_selecionar_roupa_1.isChecked():
-            print("Sai apertando")
-        else:
-            print("Apertei nada")
 
     def retranslateUi(self, Tela_inventario):
         _translate = QtCore.QCoreApplication.translate
@@ -1022,16 +1118,24 @@ class Ui_Tela_inventario(QtWidgets.QMainWindow):
 def SQL_tela_lugar():
     widget.setCurrentWidget(tela_lugar)
     LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+    JOGADOR, NIVEL_JOGADOR, ARMA, ROUPA, ATK, DEF = DATABASE.dados_jogador(id_personagem)
+    NOME_MONSTRO, ATK_MONSTRO, DEF_MONSTRO, NIVEL = DATABASE.dados_monstro(id_personagem)
     tela_lugar.label_lugar.setText("Lugar: " + LOCAL)
     tela_lugar.label_nivel_lugar.setText("Nivel: " + str(NIVEL_LOCAL))
-    JOGADOR, NIVEL_JOGADOR, ARMA, ROUPA, ATK, DEF = DATABASE.dados_jogador(id_personagem)
+    if NIVEL_LOCAL == 1:
+        tela_lugar.botao_voltar_nivel.blockSignals(True)
+    else:
+        tela_lugar.botao_voltar_nivel.blockSignals(False)
+    if NIVEL_LOCAL == 5 or NIVEL_JOGADOR == NIVEL_LOCAL:
+        tela_lugar.botao_avancar_nivel.blockSignals(True)
+    else:
+        tela_lugar.botao_avancar_nivel.blockSignals(False)
     tela_lugar.label_nome_jogador.setText(JOGADOR)
     tela_lugar.label_nivel_jogador.setText("Nivel: " + str(NIVEL_JOGADOR))
     tela_lugar.label_arma.setText("Arma\n" + ARMA)
     tela_lugar.label_roupa.setText("Roupa\n" + ROUPA)
     tela_lugar.label_ataque_jogador.setText("Ataque Total\n" + str(ATK))
     tela_lugar.label_defesa_jogador.setText("Defesa Total\n" + str(DEF))
-    NOME_MONSTRO, ATK_MONSTRO, DEF_MONSTRO = DATABASE.dados_monstro(id_personagem)
     tela_lugar.label_nome_monstro.setText("Monstro\n" + NOME_MONSTRO)
     tela_lugar.label_ataque_monstro.setText("Ataque:\n" + str(ATK_MONSTRO))
     tela_lugar.label_defesa_monstro.setText("Defesa:\n" + str(DEF_MONSTRO))
