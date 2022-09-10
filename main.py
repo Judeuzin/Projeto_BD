@@ -5,18 +5,10 @@ import random
 
 ###### VARIAVEIS GLOBAIS #########
 id_personagem = 2
-#tipo_drop = 0, arma
-#tipo_drop = 1, roupa
-tipo_drop = 0
-id_local = 1
-Bonus_monstro = 1.75
-
 #################### CONSTANTES ###################
 
 GANHAR_JOGADOR = 0
 GANHAR_MONSTRO = 1
-
-#### OPERAÇÃO REALIZADA NO BD ########
 
 
 
@@ -172,13 +164,13 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
         self.botao_avancar_nivel.clicked.connect(self.avancar_nivel)
 
     def avancar_nivel(self):
-        LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+        LOCAL, NIVEL_LOCAL = DATABASE.dados_local(id_personagem)
         DATABASE.avancar_local(id_personagem, NIVEL_LOCAL)
         SQL_tela_lugar()
 
 
     def voltar_nivel(self):
-        LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+        LOCAL, NIVEL_LOCAL = DATABASE.dados_local(id_personagem)
         DATABASE.voltar_local(id_personagem, NIVEL_LOCAL)
         SQL_tela_lugar()
 
@@ -218,7 +210,7 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
                     tela_inventario.label_arma_nivel_5.setText("Nivel: " + str(linha[1]))
                     tela_inventario.label_arma_atk_5.setText("Ataque: " + str(linha[2]))
                     tela_inventario.label_arma_def_5.setText("Defesa: " + str(linha[3]))
-                    tela_inventario.botao_selecionar_arma_4.setCheckable(True)
+                    tela_inventario.botao_selecionar_arma_5.setCheckable(True)
                 Contagem = Contagem + 1
                 NUMERO_ITENS = NUMERO_ITENS-1
             if Contagem < 6:
@@ -1114,10 +1106,9 @@ class Ui_Tela_inventario(QtWidgets.QMainWindow):
         self.label_arma_atk_3.setText(_translate("Tela_inventario", "Ataque:"))
         self.label_arma_def_3.setText(_translate("Tela_inventario", "Defesa:"))
 
-
 def SQL_tela_lugar():
     widget.setCurrentWidget(tela_lugar)
-    LOCAL, NIVEL_LOCAL, id_local = DATABASE.dados_local(id_personagem)
+    LOCAL, NIVEL_LOCAL = DATABASE.dados_local(id_personagem)
     JOGADOR, NIVEL_JOGADOR, ARMA, ROUPA, ATK, DEF = DATABASE.dados_jogador(id_personagem)
     NOME_MONSTRO, ATK_MONSTRO, DEF_MONSTRO, NIVEL = DATABASE.dados_monstro(id_personagem)
     tela_lugar.label_lugar.setText("Lugar: " + LOCAL)

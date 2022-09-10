@@ -2,18 +2,24 @@ import mysql.connector
 from mysql.connector import Error
 import random
 
+host = '127.0.0.1'
+database = 'projetobd'
+user = 'root'
+password = 'password'
+port = '3307'
 
-def dados_local(id):
+
+def dados_local(idPersonagem):
 
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
-            sql_select_query = "select nome, nivel,idLocal from local where idLocal = (" \
-                               "select Local_idLocal from personagem where idPersonagem = "+ str(id) + ")"
+            sql_select_query = "select nome, nivel from local where idLocal = (" \
+                               "select Local_idLocal from personagem where idPersonagem = "+ str(idPersonagem) + ")"
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -22,22 +28,22 @@ def dados_local(id):
                 connection.close()
                 cursor.close()
             for row in records:
-                return row[0], row[1], row[2]
+                return row[0], row[1]
 
 
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def dados_jogador(id):
+def dados_jogador(idPersonagem):
 
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
-            sql_select_query = "select nome, nivel from personagem where idPersonagem = "+ str(id)
+            sql_select_query = "select nome, nivel from personagem where idPersonagem = "+ str(idPersonagem)
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -47,8 +53,8 @@ def dados_jogador(id):
                 Nivel = row[1]
 
             sql_select_query = "select a.nome, a.defesa, a.ataque, r.nome, r.defesa, r.ataque from arma a, roupa r where " \
-                               "idArma = (select ArmaEquipada_idArma from personagem where idPersonagem = " + str(id) + ") "\
-                               "and idRoupa = (select RoupaEquipada_idRoupa from personagem where idPersonagem = " + str(id) + ") "
+                               "idArma = (select ArmaEquipada_idArma from personagem where idPersonagem = " + str(idPersonagem) + ") "\
+                               "and idRoupa = (select RoupaEquipada_idRoupa from personagem where idPersonagem = " + str(idPersonagem) + ") "
             cursor.execute(sql_select_query)
             records = cursor.fetchall()
             if connection.is_connected():
@@ -65,17 +71,17 @@ def dados_jogador(id):
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def dados_monstro(id):
+def dados_monstro(idPersonagem):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
             sql_select_query = "select nome, ataque, defesa, nivel from monstro where idMonstro = (" \
                                "select Monstro_idMonstro from local where idLocal = (" \
-                               "select Local_idLocal from personagem where idPersonagem = "+str(id)+"))"
+                               "select Local_idLocal from personagem where idPersonagem = "+str(idPersonagem)+"))"
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -89,18 +95,18 @@ def dados_monstro(id):
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def itens_usando(id):
+def itens_usando(idPersonagem):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
             sql_select_query = "select Roupa.Nivel,Arma.Nivel from Roupa,Arma where idArma = (" \
-                               "select ArmaEquipada_idArma from Personagem where idPersonagem = "+str(id)+")" \
+                               "select ArmaEquipada_idArma from Personagem where idPersonagem = "+str(idPersonagem)+")" \
                                " and idRoupa = (" \
-                               "select RoupaEquipada_idRoupa from Personagem where idPersonagem = "+str(id)+")"
+                               "select RoupaEquipada_idRoupa from Personagem where idPersonagem = "+str(idPersonagem)+")"
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -115,15 +121,15 @@ def itens_usando(id):
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def armas_que_possui(id):
+def armas_que_possui(idPersonagem):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
-            sql_select_query = "select COUNT(*) from personagem_has_arma where Personagem_idPersonagem = "+str(id)
+            sql_select_query = "select COUNT(*) from personagem_has_arma where Personagem_idPersonagem = "+str(idPersonagem)
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -133,7 +139,7 @@ def armas_que_possui(id):
                 Numero_Itens = row[0]
                 break
             sql_select_query = "select Nome,Nivel,Ataque,Defesa from Arma INNER JOIN personagem_has_arma " \
-                               "where idArma = Arma_idArma and Personagem_idPersonagem = " + str(id)
+                               "where idArma = Arma_idArma and Personagem_idPersonagem = " + str(idPersonagem)
 
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
@@ -147,7 +153,7 @@ def armas_que_possui(id):
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def roupas_que_possui(id):
+def roupas_que_possui(idPersonagem):
     try:
         connection = mysql.connector.connect(host='127.0.0.1',
                                              database='projetobd',
@@ -155,7 +161,7 @@ def roupas_que_possui(id):
                                              password='password',
                                              port='3307')
         if connection.is_connected():
-            sql_select_query = "select COUNT(*) from personagem_has_roupa where Personagem_idPersonagem = "+str(id)
+            sql_select_query = "select COUNT(*) from personagem_has_roupa where Personagem_idPersonagem = "+str(idPersonagem)
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -166,7 +172,7 @@ def roupas_que_possui(id):
                 break
 
             sql_select_query = "select Nome,Nivel,Ataque,Defesa from Roupa INNER JOIN personagem_has_roupa " \
-                               "where idRoupa = Roupa_idRoupa and Personagem_idPersonagem = " + str(id)
+                               "where idRoupa = Roupa_idRoupa and Personagem_idPersonagem = " + str(idPersonagem)
 
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
@@ -180,18 +186,18 @@ def roupas_que_possui(id):
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-def prox_drop(id):
+def prox_drop(idPersonagem):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
 
         #tipo_drop = 0, arma
         #tipo_drop = 1, roupa
         tipo_drop = random.randrange(0, 2)
-        args = (id, tipo_drop, 0)
+        args = (idPersonagem, tipo_drop, 0)
 
         if connection.is_connected():
             cursor = connection.cursor()
@@ -218,11 +224,11 @@ def prox_drop(id):
 
 def inserir_drop(idPersonagem, idDrop, tipoDrop):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
 
         if connection.is_connected():
             #Arma
@@ -270,11 +276,11 @@ def inserir_drop(idPersonagem, idDrop, tipoDrop):
 
 def nivel_up(idPersonagem):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
             sql_select_query = "select p.nivel, l.nivel from personagem p inner join local l where Local_idLocal = idLocal and idPersonagem =" + str(idPersonagem)
             cursor = connection.cursor()
@@ -301,17 +307,18 @@ def nivel_up(idPersonagem):
 
 def atualizar_armas(idPersonagem, nivel_arma, nivel_roupa):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
+
         idArma = 0
         idRoupa = 0
         if connection.is_connected():
-            sql_select_query = "select idArma, idRoupa from ARMA, ROUPA inner join personagem_has_arma,personagem_has_roupa " \
+            sql_select_query = "select idArma, idRoupa from ARMA, ROUPA inner join personagem_has_arma pa,personagem_has_roupa " \
                                "where idArma = Arma_idArma and idRoupa = Roupa_idRoupa and " \
-                               "roupa.nivel = "+str(nivel_roupa)+" and arma.nivel = " + str(nivel_arma)
+                               "roupa.nivel = "+str(nivel_roupa)+" and arma.nivel = " + str(nivel_arma) + " and pa.Personagem_idPersonagem = "+ str(idPersonagem)
             cursor = connection.cursor()
             cursor.execute(sql_select_query)
             # get all records
@@ -336,11 +343,11 @@ def atualizar_armas(idPersonagem, nivel_arma, nivel_roupa):
 
 def voltar_local(idPersonagem, nivel_local):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
             sql_select_query = "select idLocal from Local where nivel =" + str(nivel_local-1)
             cursor = connection.cursor()
@@ -363,11 +370,11 @@ def voltar_local(idPersonagem, nivel_local):
 
 def avancar_local(idPersonagem, nivel_local):
     try:
-        connection = mysql.connector.connect(host='127.0.0.1',
-                                             database='projetobd',
-                                             user='root',
-                                             password='password',
-                                             port='3307')
+        connection = mysql.connector.connect(host=host,
+                                             database=database,
+                                             user=user,
+                                             password=password,
+                                             port=port)
         if connection.is_connected():
             sql_select_query = "select idLocal from Local where nivel =" + str(nivel_local+1)
             cursor = connection.cursor()
