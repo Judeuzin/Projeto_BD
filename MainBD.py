@@ -395,7 +395,7 @@ def ChamaCamadaPersistenciaDeletaItens(idPersonagem):
             cursor.execute(Comando)
             Comando = "SELECT min(idLocal) into @idL from Local"
             cursor.execute(Comando)
-            Comando = "UPDATE Personagem SET Nivel = 1 and Local_idLocal = @idL where idPersonagem = " + str(idPersonagem)
+            Comando = "UPDATE Personagem SET Nivel = 1, Local_idLocal = @idL where idPersonagem = " + str(idPersonagem)
             cursor.execute(Comando)
             connection.commit()
             connection.close()
