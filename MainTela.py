@@ -13,7 +13,7 @@ GANHAR_MONSTRO = 1
 #### OPERAÇÃO REALIZADA NO BD ########
 
 class Ui_TelaRegistro(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaRegistro, self).__init__()
         self.setupUiTelaRegistro()
@@ -27,7 +27,7 @@ class Ui_TelaRegistro(QtWidgets.QMainWindow):
         param3 = self.textTelefone.text()
         param4 = self.textEmail.text()
         param5 = self.textEndereco.text()
-        cond = MainBD.ChamaCamadaPersistenciaRegistro(param1,param2,param3,param4,param5) 
+        cond = MainBD.ChamaCamadaPersistenciaRegistro(param1, param2, param3, param4, param5)
         if cond:
             widget.setCurrentWidget(PrimeiraPagina)
         else:
@@ -49,7 +49,7 @@ class Ui_TelaRegistro(QtWidgets.QMainWindow):
         self.setObjectName("CriarConta")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-                            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -104,27 +104,27 @@ class Ui_TelaRegistro(QtWidgets.QMainWindow):
         self.textLogin.setGeometry(QtCore.QRect(300, 90, 231, 31))
         self.textLogin.setObjectName("textLogin")
         self.textLogin.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.textSenha = QtWidgets.QLineEdit(self.centralwidget)
         self.textSenha.setGeometry(QtCore.QRect(300, 150, 231, 31))
         self.textSenha.setObjectName("textSenha")
         self.textSenha.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.textTelefone = QtWidgets.QLineEdit(self.centralwidget)
         self.textTelefone.setGeometry(QtCore.QRect(300, 210, 231, 31))
         self.textTelefone.setObjectName("textTelefone")
         self.textTelefone.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                        "border-color: rgb(0, 0, 0);")
         self.textEmail = QtWidgets.QLineEdit(self.centralwidget)
         self.textEmail.setGeometry(QtCore.QRect(300, 270, 231, 31))
         self.textEmail.setObjectName("textEmail")
         self.textEmail.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.textEndereco = QtWidgets.QLineEdit(self.centralwidget)
         self.textEndereco.setGeometry(QtCore.QRect(300, 330, 231, 31))
         self.textEndereco.setObjectName("textEndereco")
         self.textEndereco.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                        "border-color: rgb(0, 0, 0);")
         self.EfetuaRegistro = QtWidgets.QPushButton(self.centralwidget)
         self.EfetuaRegistro.setGeometry(QtCore.QRect(370, 390, 93, 28))
         self.EfetuaRegistro.setObjectName("EfetuaRegistro")
@@ -140,8 +140,9 @@ class Ui_TelaRegistro(QtWidgets.QMainWindow):
         self.VoltaTela.clicked.connect(self.Volta_TelaLogin)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
 class Ui_TelaUpdateConta(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaUpdateConta, self).__init__()
         self.setupUiTelaUpdateConta()
@@ -153,7 +154,7 @@ class Ui_TelaUpdateConta(QtWidgets.QMainWindow):
         param1 = self.textTelefone.text()
         param2 = self.textEmail.text()
         param3 = self.textEndereco.text()
-        cond = MainBD.ChamaCamadaPersistenciaUpdateConta(ListaChavesRelacionadas,param1,param2,param3)
+        cond = MainBD.ChamaCamadaPersistenciaUpdateConta(ListaChavesRelacionadas, param1, param2, param3)
         if cond:
             widget.setCurrentWidget(TerceiraPagina)
         else:
@@ -173,7 +174,7 @@ class Ui_TelaUpdateConta(QtWidgets.QMainWindow):
         self.setObjectName("CriarConta")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-                            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -212,17 +213,17 @@ class Ui_TelaUpdateConta(QtWidgets.QMainWindow):
         self.textTelefone.setGeometry(QtCore.QRect(300, 220, 231, 31))
         self.textTelefone.setObjectName("textTelefone")
         self.textTelefone.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                        "border-color: rgb(0, 0, 0);")
         self.textEmail = QtWidgets.QLineEdit(self.centralwidget)
         self.textEmail.setGeometry(QtCore.QRect(300, 280, 231, 31))
         self.textEmail.setObjectName("textEmail")
         self.textEmail.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.textEndereco = QtWidgets.QLineEdit(self.centralwidget)
         self.textEndereco.setGeometry(QtCore.QRect(300, 340, 231, 31))
         self.textEndereco.setObjectName("textEndereco")
         self.textEndereco.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                        "border-color: rgb(0, 0, 0);")
         self.Update = QtWidgets.QPushButton(self.centralwidget)
         self.Update.setGeometry(QtCore.QRect(370, 390, 93, 28))
         self.Update.setObjectName("EfetuaRegistro")
@@ -238,22 +239,23 @@ class Ui_TelaUpdateConta(QtWidgets.QMainWindow):
         self.VoltaTela.clicked.connect(self.Volta_TelaLogin)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
 class Ui_TelaLogin(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaLogin, self).__init__()
         self.setupUiTelaLogin()
-    
+
     def VerificaLogin(self):
         param1 = self.textLogin.text()
         param2 = self.textSenha.text()
-        cond = MainBD.ChamaCamadaPersistenciaLogin(param1,param2)
+        cond = MainBD.ChamaCamadaPersistenciaLogin(param1, param2)
         if cond:
             ListaChavesRelacionadas.append(param1)
             widget.setCurrentWidget(TerceiraPagina)
         else:
             print("Erro ao fazer o login")
-            
+
     def Troca_TelaRegistro(self):
         widget.setCurrentWidget(SegundaPagina)
 
@@ -266,12 +268,12 @@ class Ui_TelaLogin(QtWidgets.QMainWindow):
         self.label_2.setText(_translate("TelaInicial", "User ID"))
         self.label_3.setText(_translate("TelaInicial", "Senha"))
         self.CriaConta.setText(_translate("TelaInicial", "Criar Conta"))
-    
+
     def setupUiTelaLogin(self):
         self.setObjectName("TelaInicial")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-                            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -292,12 +294,12 @@ class Ui_TelaLogin(QtWidgets.QMainWindow):
         self.textLogin.setGeometry(QtCore.QRect(300, 260, 231, 31))
         self.textLogin.setObjectName("textLogin")
         self.textLogin.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.textSenha = QtWidgets.QLineEdit(self.centralwidget)
         self.textSenha.setGeometry(QtCore.QRect(300, 310, 231, 31))
         self.textSenha.setObjectName("textSenha")
         self.textSenha.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                     "border-color: rgb(0, 0, 0);")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(230, 250, 61, 51))
         font = QtGui.QFont()
@@ -337,12 +339,84 @@ class Ui_TelaLogin(QtWidgets.QMainWindow):
         self.FechaJogo.clicked.connect(app.closeAllWindows)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
+class Ui_TelaStatusServidor(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Ui_TelaStatusServidor, self).__init__()
+        Servidores = MainBD.ChamaCamadaStatus()
+        self.setupUiTelaServidor(Servidores)
+
+    def retranslateUi(self, TelaStatus):
+        _translate = QtCore.QCoreApplication.translate
+        TelaStatus.setWindowTitle(_translate("TelaStatus", "StatusServidor"))
+        self.VoltaTela.setText(_translate("TelaStatus", "Volta tela Servidor"))
+        self.label_1.setText(_translate("TelaStatus", "Informações sobre o servidor :"))
+
+    def Volta_TelaServidor(self):
+        widget.setCurrentWidget(TerceiraPagina)
+        ListaChavesRelacionadas.pop()
+        widget.removeWidget(OitavaPagina)
+
+    def setupUiTelaServidor(self, list):
+        self.setObjectName("EscolheServidor")
+        self.resize(800, 600)
+        self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
+                           "border-color: rgb(0, 0, 0);")
+        self.centralwidget = QtWidgets.QWidget(self)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label_1 = QtWidgets.QLabel(self.centralwidget)
+        self.label_1.setGeometry(QtCore.QRect(40, 50, 400, 101))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.label_1.setFont(font)
+        self.label_1.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label_1.setTextFormat(QtCore.Qt.AutoText)
+        self.label_1.setObjectName("label_1")
+        self.EscolheServidor = QtWidgets.QListWidget(self.centralwidget)
+        self.EscolheServidor.setGeometry(QtCore.QRect(170, 200, 456, 192))
+        self.EscolheServidor.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+                                           "border-color: rgb(0, 0, 0);")
+        self.EscolheServidor.setObjectName("EscolheServidor")
+        self.VoltaTela = QtWidgets.QPushButton(self.centralwidget)
+        self.VoltaTela.setGeometry(QtCore.QRect(520, 440, 200, 50))
+        self.VoltaTela.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+                                     "border-color: rgb(0, 0, 0);")
+        self.VoltaTela.setObjectName("VoltaServidor")
+        self.setCentralWidget(self.centralwidget)
+        cont = 0
+        for server in list:
+            if (server[0] == ListaChavesRelacionadas[1]):
+                _translate = QtCore.QCoreApplication.translate
+                item = QtWidgets.QListWidgetItem()
+                self.EscolheServidor.addItem(item)
+                __sortingEnabled = self.EscolheServidor.isSortingEnabled()
+                self.EscolheServidor.setSortingEnabled(False)
+                item = self.EscolheServidor.item(cont)
+                item.setText(_translate("Dialog", str(server)))
+                self.EscolheServidor.setSortingEnabled(__sortingEnabled)
+                cont = cont + 1
+        self.statusbar = QtWidgets.QStatusBar(self)
+        self.statusbar.setObjectName("statusbar")
+        self.setStatusBar(self.statusbar)
+        self.retranslateUi(self)
+        self.VoltaTela.clicked.connect(self.Volta_TelaServidor)
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+
 class Ui_TelaServidor(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaServidor, self).__init__()
         Servidores = MainBD.ChamaCamadaPersistenciaServidor()
         self.setupUiTelaServidor(Servidores)
+
+    def telaStatus(self):
+        param1 = self.EscolheServidor.currentItem().text()
+        ListaChavesRelacionadas.append(param1)
+        global OitavaPagina
+        OitavaPagina = Ui_TelaStatusServidor()
+        widget.addWidget(OitavaPagina)
+        widget.setCurrentWidget(OitavaPagina)
 
     def Volta_TelaLogin(self):
         widget.setCurrentWidget(PrimeiraPagina)
@@ -358,7 +432,7 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
             ListaChavesRelacionadas.clear()
         else:
             print("Erro ao excluir a conta")
-        
+
     def ServidorEscolhido(self):
         param1 = self.EscolheServidor.currentItem().text()
         ListaChavesRelacionadas.append(param1)
@@ -375,11 +449,13 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
         self.ExcluirConta.setText(_translate("EscolheServidor", "Excluir Conta"))
         self.EfetuaServidor.setText(_translate("EscolheServidor", "Entrar"))
         self.UpdateConta.setText(_translate("EscolheServidor", "Alterar Dados"))
-    def setupUiTelaServidor(self,list):
+        self.StatusServidor.setText(_translate("EscolheServidor", "Status Servidor"))
+
+    def setupUiTelaServidor(self, list):
         self.setObjectName("EscolheServidor")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -393,7 +469,7 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
         self.EscolheServidor = QtWidgets.QListWidget(self.centralwidget)
         self.EscolheServidor.setGeometry(QtCore.QRect(170, 200, 456, 192))
         self.EscolheServidor.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                           "border-color: rgb(0, 0, 0);")
         self.EscolheServidor.setObjectName("EscolheServidor")
         self.EfetuaServidor = QtWidgets.QPushButton(self.centralwidget)
         self.EfetuaServidor.setGeometry(QtCore.QRect(350, 420, 93, 28))
@@ -407,10 +483,10 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
             self.EscolheServidor.setSortingEnabled(False)
             item = self.EscolheServidor.item(cont)
             server = str(server)
-            server = server[2:len(server)-3]
-            item.setText(_translate("Dialog",server))
+            server = server[2:len(server) - 3]
+            item.setText(_translate("Dialog", server))
             self.EscolheServidor.setSortingEnabled(__sortingEnabled)
-            cont = cont+1
+            cont = cont + 1
         self.EscolheServidor.setCurrentItem(item)
         self.VoltaTela = QtWidgets.QPushButton(self.centralwidget)
         self.VoltaTela.setGeometry(QtCore.QRect(580, 520, 150, 28))
@@ -421,6 +497,9 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
         self.UpdateConta = QtWidgets.QPushButton(self.centralwidget)
         self.UpdateConta.setGeometry(QtCore.QRect(330, 520, 150, 28))
         self.UpdateConta.setObjectName("UpdateConta")
+        self.StatusServidor = QtWidgets.QPushButton(self.centralwidget)
+        self.StatusServidor.setGeometry(QtCore.QRect(600, 50, 150, 28))
+        self.StatusServidor.setObjectName("StatusServidor")
         self.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
@@ -430,10 +509,12 @@ class Ui_TelaServidor(QtWidgets.QMainWindow):
         self.ExcluirConta.clicked.connect(self.ExcluiConta)
         self.VoltaTela.clicked.connect(self.Volta_TelaLogin)
         self.EfetuaServidor.clicked.connect(self.ServidorEscolhido)
+        self.StatusServidor.clicked.connect(self.telaStatus)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
 class Ui_TelaUpdateNome(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaUpdateNome, self).__init__()
         self.setupUiTelaUpdateNome()
@@ -442,10 +523,10 @@ class Ui_TelaUpdateNome(QtWidgets.QMainWindow):
         QuartaPagina = Ui_TelaEscolhePersonagem()
         widget.addWidget(QuartaPagina)
         widget.setCurrentWidget(QuartaPagina)
-        
+
     def NomePersonagemMudado(self):
         param1 = self.textNome.text()
-        cond = MainBD.ChamaCamadaPersistenciaUpdateNome(ListaChavesRelacionadas,param1)
+        cond = MainBD.ChamaCamadaPersistenciaUpdateNome(ListaChavesRelacionadas, param1)
         if cond:
             QuartaPagina = Ui_TelaEscolhePersonagem()
             widget.addWidget(QuartaPagina)
@@ -466,7 +547,7 @@ class Ui_TelaUpdateNome(QtWidgets.QMainWindow):
         self.setObjectName("CriarConta")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-                            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -489,7 +570,7 @@ class Ui_TelaUpdateNome(QtWidgets.QMainWindow):
         self.textNome.setGeometry(QtCore.QRect(300, 210, 231, 31))
         self.textNome.setObjectName("textEndereco")
         self.textNome.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                    "border-color: rgb(0, 0, 0);")
         self.Update = QtWidgets.QPushButton(self.centralwidget)
         self.Update.setGeometry(QtCore.QRect(370, 390, 93, 28))
         self.Update.setObjectName("EfetuaRegistro")
@@ -505,8 +586,9 @@ class Ui_TelaUpdateNome(QtWidgets.QMainWindow):
         self.VoltaTela.clicked.connect(self.Volta_TelaEscolhaPersonagem)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
 class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaEscolhePersonagem, self).__init__()
         self.setupUiTelaPersonagem(MainBD.ChamaCamadaPersistenciaEscolhePersonagem(ListaChavesRelacionadas))
@@ -518,16 +600,12 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
 
     def PersonagemEscolhido(self):
         try:
-
             param1 = self.EscolhePersonagem.currentItem().text()
-            ListaChavesRelacionadas.append(param1)
-            global id_personagem
-            id_personagem = MainBD.RecuperaIDpersonagem(ListaChavesRelacionadas)
-
-            #MainBD.Fechaconexao()
-            widget.setCurrentWidget(tela_lugar)
-
-            SQL_tela_lugar()
+            if param1:
+                ListaChavesRelacionadas.append(param1)
+                global id_personagem
+                id_personagem = MainBD.RecuperaIDPersonagem(ListaChavesRelacionadas)
+                SQL_tela_lugar()
         except:
             print("Erro ao selecionar um personagem")
 
@@ -544,7 +622,7 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
         try:
             VarPersonagem = self.EscolhePersonagem
             param1 = VarPersonagem.currentItem().text()
-            cond = MainBD.ChamaCamadaPersistenciaExcluiPersonagem(ListaChavesRelacionadas,param1)
+            cond = MainBD.ChamaCamadaPersistenciaExcluiPersonagem(ListaChavesRelacionadas, param1)
             if cond:
                 VarPersonagem.takeItem(VarPersonagem.currentRow())
                 print("Personagem excluido com sucesso")
@@ -556,7 +634,7 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
     def TelaCriaPersonagem(self):
         widget.setCurrentWidget(QuintaPagina)
         widget.removeWidget(QuartaPagina)
-    
+
     def retranslateUi(self, TelaPersonagem):
         _translate = QtCore.QCoreApplication.translate
         TelaPersonagem.setWindowTitle(_translate("EscolhePersonagem", "EscolhePersonagem"))
@@ -567,11 +645,11 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
         self.AlteraNome.setText(_translate("EscolhePersonagem", "Muda nome Personagem"))
         self.ExcluiPersonagem.setText(_translate("EscolhePersonagem", "Exclui Personagem"))
 
-    def setupUiTelaPersonagem(self,list):
+    def setupUiTelaPersonagem(self, list):
         self.setObjectName("EscolhePersonagem")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
@@ -585,7 +663,7 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
         self.EscolhePersonagem = QtWidgets.QListWidget(self.centralwidget)
         self.EscolhePersonagem.setGeometry(QtCore.QRect(170, 200, 456, 192))
         self.EscolhePersonagem.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                             "border-color: rgb(0, 0, 0);")
         self.EscolhePersonagem.setObjectName("EscolhePersonagem")
         self.EfetuaPersonagem = QtWidgets.QPushButton(self.centralwidget)
         self.EfetuaPersonagem.setGeometry(QtCore.QRect(350, 420, 93, 28))
@@ -599,10 +677,10 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
             self.EscolhePersonagem.setSortingEnabled(False)
             item = self.EscolhePersonagem.item(cont)
             personagem = str(personagem)
-            personagem = personagem[2:len(personagem)-3]
-            item.setText(_translate("Dialog",str(personagem)))
+            personagem = personagem[2:len(personagem) - 3]
+            item.setText(_translate("Dialog", str(personagem)))
             self.EscolhePersonagem.setSortingEnabled(__sortingEnabled)
-            cont = cont+1
+            cont = cont + 1
         if list:
             self.EscolhePersonagem.setCurrentItem(item)
         self.VoltaTela = QtWidgets.QPushButton(self.centralwidget)
@@ -629,8 +707,9 @@ class Ui_TelaEscolhePersonagem(QtWidgets.QMainWindow):
         self.EfetuaPersonagem.clicked.connect(self.PersonagemEscolhido)
         QtCore.QMetaObject.connectSlotsByName(self)
 
+
 class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
-    
+
     def __init__(self):
         super(Ui_TelaCriaPersonagem, self).__init__()
         self.setupUiTelaCriaPersonagem(MainBD.ChamaCamadaPersistenciaEscolheClasse())
@@ -639,11 +718,11 @@ class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
         QuartaPagina = Ui_TelaEscolhePersonagem()
         widget.addWidget(QuartaPagina)
         widget.setCurrentWidget(QuartaPagina)
-        
+
     def PersonagemCriado(self):
         param1 = self.textName.text()
         param2 = self.EscolheClasse.currentItem().text()
-        cond = MainBD.ChamaCamadaPersistenciaCriaPersonagem(ListaChavesRelacionadas,param1,param2)
+        cond = MainBD.ChamaCamadaPersistenciaCriaPersonagem(ListaChavesRelacionadas, param1, param2)
         if cond:
             QuartaPagina = Ui_TelaEscolhePersonagem()
             widget.addWidget(QuartaPagina)
@@ -658,16 +737,16 @@ class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
         self.label_1.setText(_translate("CriaPersonagem", "Escolha o nome do personagem :"))
         self.VoltaTela.setText(_translate("CriaPersonagem", "Voltar Pagina Personagem"))
         self.EfetuaCriacaoPersonagem.setText(_translate("CriaPersonagem", "Criar Personagem"))
-    
-    def setupUiTelaCriaPersonagem(self,list):
+
+    def setupUiTelaCriaPersonagem(self, list):
         self.setObjectName("CriaPersonagem")
         self.resize(800, 600)
         self.setStyleSheet("background-color: rgb(255, 228, 203);\n"
-            "border-color: rgb(0, 0, 0);")
+                           "border-color: rgb(0, 0, 0);")
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.label_1 = QtWidgets.QLabel(self.centralwidget)
-        self.label_1.setGeometry(QtCore.QRect(40,0, 400, 50))
+        self.label_1.setGeometry(QtCore.QRect(40, 0, 400, 50))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_1.setFont(font)
@@ -675,12 +754,12 @@ class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
         self.label_1.setTextFormat(QtCore.Qt.AutoText)
         self.label_1.setObjectName("label_1")
         self.textName = QtWidgets.QLineEdit(self.centralwidget)
-        self.textName.setGeometry(QtCore.QRect(40,60, 231, 31))
+        self.textName.setGeometry(QtCore.QRect(40, 60, 231, 31))
         self.textName.setObjectName("textName")
         self.textName.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                    "border-color: rgb(0, 0, 0);")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(40,100, 400, 101))
+        self.label_2.setGeometry(QtCore.QRect(40, 100, 400, 101))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.label_2.setFont(font)
@@ -690,7 +769,7 @@ class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
         self.EscolheClasse = QtWidgets.QListWidget(self.centralwidget)
         self.EscolheClasse.setGeometry(QtCore.QRect(170, 200, 456, 192))
         self.EscolheClasse.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-                            "border-color: rgb(0, 0, 0);")
+                                         "border-color: rgb(0, 0, 0);")
         self.EscolheClasse.setObjectName("EscolheClasse")
         self.EfetuaCriacaoPersonagem = QtWidgets.QPushButton(self.centralwidget)
         self.EfetuaCriacaoPersonagem.setGeometry(QtCore.QRect(350, 420, 125, 28))
@@ -704,10 +783,10 @@ class Ui_TelaCriaPersonagem(QtWidgets.QMainWindow):
             self.EscolheClasse.setSortingEnabled(False)
             item = self.EscolheClasse.item(cont)
             classe = str(classe)
-            classe = classe[2:len(classe)-3]
-            item.setText(_translate("Dialog",str(classe)))
+            classe = classe[2:len(classe) - 3]
+            item.setText(_translate("Dialog", str(classe)))
             self.EscolheClasse.setSortingEnabled(__sortingEnabled)
-            cont = cont+1
+            cont = cont + 1
         if list:
             self.EscolheClasse.setCurrentItem(item)
         self.VoltaTela = QtWidgets.QPushButton(self.centralwidget)
@@ -1036,10 +1115,6 @@ class Ui_Tela_Lugar(QtWidgets.QMainWindow):
         tela_atk_monstro.botao_atacar.blockSignals(False)
         MainBD.ChamaCamadaPersistenciaRecuperaImagem(tela_atk_monstro, NOME_MONSTRO)
         widget.setCurrentWidget(tela_atk_monstro)
-
-
-
-
 
     def Md_Tela_Inicial(self):
         widget.setFixedHeight(600)

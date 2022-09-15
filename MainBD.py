@@ -10,21 +10,7 @@ user = 'root'
 password = 'password'
 port = '3307'
 
-"""
-def RodaScriptSQL(NameScript):
-    fd = open(NameScript, 'r')
-    sqlFile = fd.read()
-    fd.close()
-    CommandsSQL = sqlFile.split(';')
-    for Command in CommandsSQL:
-        try:
-            cursor.execute(Command)
-            connection.commit()
-        except Error as e:
-            print("comando pulado: ",e)
-"""
-
-def ChamaCamadaPersistenciaCriaPersonagem(ListaChaves,param1,param2):
+def ChamaCamadaPersistenciaCriaPersonagem(ListaChaves, param1, param2):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -36,21 +22,22 @@ def ChamaCamadaPersistenciaCriaPersonagem(ListaChaves,param1,param2):
 
         if connection.is_connected():
             cursor = connection.cursor()
-            Comando = "SELECT * FROM Personagem WHERE Nome = '" + param1 + "'AND Servidor_NomeServidor = '" + ListaChaves[1] + "' AND ContaUsuario_Login = '" + ListaChaves[0] + "'"
+            Comando = "SELECT * FROM Personagem WHERE Nome = '" + param1 + "'AND Servidor_NomeServidor = '" + \
+                      ListaChaves[1] + "' AND ContaUsuario_Login = '" + ListaChaves[0] + "'"
 
             cursor.execute(Comando)
             record = cursor.fetchall()
             if not record:
-                Comando = "SELECT idClasse FROM Classe WHERE Nome = '"+param2+"'"
+                Comando = "SELECT idClasse FROM Classe WHERE Nome = '" + param2 + "'"
                 cursor.execute(Comando)
                 record = cursor.fetchone()
                 param2, = record
                 if param1 and param2:
                     param2 = str(param2)
-                    Comando = "SELECT idArma,idRoupa FROM Classe,Arma,Roupa WHERE Arma.Nivel = 1 AND Roupa.Nivel = 1 AND Classe.idClasse = Arma.Classe_idClasse AND Classe.idClasse = Roupa.Classe_idClasse AND Classe.idClasse ="+param2+";"
+                    Comando = "SELECT idArma,idRoupa FROM Classe,Arma,Roupa WHERE Arma.Nivel = 1 AND Roupa.Nivel = 1 AND Classe.idClasse = Arma.Classe_idClasse AND Classe.idClasse = Roupa.Classe_idClasse AND Classe.idClasse =" + param2 + ";"
                     cursor.execute(Comando)
                     record = cursor.fetchone()
-                    param3,param4 = record
+                    param3, param4 = record
                     param3 = str(param3)
                     param4 = str(param4)
                     Comando = "select min(idLocal) from Local"
@@ -58,17 +45,28 @@ def ChamaCamadaPersistenciaCriaPersonagem(ListaChaves,param1,param2):
                     record = cursor.fetchone()
                     param5 = record[0]
                     param5 = str(param5)
-
-                    Comando = "INSERT INTO Personagem(Nome,Nivel,Servidor_NomeServidor,ContaUsuario_Login,ArmaEquipada_idArma,RoupaEquipada_idRoupa,Local_idLocal,Classe_idClasse) VALUES ('"+param1+"',1,'"+ListaChaves[1]+"','"+ListaChaves[0]+"','"+param3+"','"+param4+"',"+param5+","+param2+");"
+                    Comando = "INSERT INTO Personagem(Nome,Nivel,Servidor_NomeServidor,ContaUsuario_Login,ArmaEquipada_idArma,RoupaEquipada_idRoupa,Local_idLocal,Classe_idClasse) VALUES ('" + param1 + "',1,'" + \
+                              ListaChaves[1] + "','" + ListaChaves[
+                                  0] + "','" + param3 + "','" + param4 + "'," + param5 + "," + param2 + ");"
                     cursor.execute(Comando)
-                    Comando = "Select idPersonagem from Personagem where Nome='"+param1+"' and ContaUsuario_Login='"+ListaChaves[0]+"' and Servidor_NomeServidor='"+ListaChaves[1]+"'"
+                    Comando = "Select idPersonagem from Personagem where Nome='" + param1 + "' and ContaUsuario_Login='" + \
+                              ListaChaves[0] + "' and Servidor_NomeServidor='" + ListaChaves[1] + "'"
                     cursor.execute(Comando)
                     record = cursor.fetchone()
                     param6 = record[0]
                     param6 = str(param6)
-                    Comando = "INSERT INTO personagem_has_arma VALUES ("+param6+",'"+ListaChaves[1]+"','"+ListaChaves[0]+"',"+param3+");"
+                    Comando = "INSERT INTO Personagem_has_Arma VALUES (" + param6 + ",'" + ListaChaves[1] + "','" + \
+                              ListaChaves[0] + "'," + param3 + ");"
                     cursor.execute(Comando)
-                    Comando = "INSERT INTO personagem_has_roupa VALUES (" + param6 + ",'" + ListaChaves[1] + "','" +ListaChaves[0] + "'," + param4 + ");"
+                    Comando = "INSERT INTO Personagem_has_Roupa VALUES (" + param6 + ",'" + ListaChaves[1] + "','" + \
+                              ListaChaves[0] + "'," + param4 + ");"
+                    cursor.execute(Comando)
+                    Comando = "SELECT NumeroDeJogadores FROM Servidor WHERE NomeServidor ='" + ListaChaves[1] + "';"
+                    cursor.execute(Comando)
+                    record = cursor.fetchone()
+                    param7 = record[0] + 1
+                    Comando = "UPDATE Servidor SET NumeroDeJogadores = '" + str(param7) + "' WHERE NomeServidor ='" + \
+                              ListaChaves[1] + "';"
                     cursor.execute(Comando)
                     connection.commit()
                     connection.close()
@@ -79,10 +77,33 @@ def ChamaCamadaPersistenciaCriaPersonagem(ListaChaves,param1,param2):
             else:
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaLogin(param1,param2):
+
+def ChamaCamadaStatus():
+    try:
+        connection = mysql.connector.connect(
+            host=host,
+            database=database,
+            user=user,
+            password=password,
+            port=port
+        )
+        if connection.is_connected():
+            cursor = connection.cursor()
+            Comando = "SELECT * FROM JogadoresRegistradores;"
+            cursor.execute(Comando)
+            record = cursor.fetchall()
+            connection.close()
+            cursor.close()
+            return record
+    except Error as e:
+        print("erro na execução do script: ", e)
+    return False
+
+
+def ChamaCamadaPersistenciaLogin(param1, param2):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -104,11 +125,11 @@ def ChamaCamadaPersistenciaLogin(param1,param2):
                 return False
 
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaRegistro(param1,param2,param3,param4,param5):
 
+def ChamaCamadaPersistenciaRegistro(param1, param2, param3, param4, param5):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -123,7 +144,7 @@ def ChamaCamadaPersistenciaRegistro(param1,param2,param3,param4,param5):
             cursor.execute(Comando)
             record = cursor.fetchone()
             if not record and (param1 and param2 and param3 and param4 and param5):
-                Comando = "INSERT INTO ContaUsuario(Login,Senha,Telefone,Email,Endereço) VALUES ('"+param1+"','"+param2+"','"+param3+"','"+param4+"','"+param5+"');"
+                Comando = "INSERT INTO ContaUsuario(Login,Senha,Telefone,Email,Endereço) VALUES ('" + param1 + "','" + param2 + "','" + param3 + "','" + param4 + "','" + param5 + "');"
                 cursor.execute(Comando)
                 connection.commit()
                 connection.close()
@@ -134,10 +155,11 @@ def ChamaCamadaPersistenciaRegistro(param1,param2,param3,param4,param5):
                 cursor.close()
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaUpdateConta(ListaChaves,param1,param2,param3):
+
+def ChamaCamadaPersistenciaUpdateConta(ListaChaves, param1, param2, param3):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -148,9 +170,10 @@ def ChamaCamadaPersistenciaUpdateConta(ListaChaves,param1,param2,param3):
         )
         if connection.is_connected():
             cursor = connection.cursor()
-            Comando = "UPDATE ContaUsuario SET Telefone = '" + param1 + "', Email = '" + param2 + "' Endereço = '" + param3 + "' WHERE Login = '" + ListaChaves[0] + "';"
+            Comando = "UPDATE ContaUsuario SET Telefone = '" + param1 + "', Email = '" + param2 + "' Endereço = '" + param3 + "' WHERE Login = '" + \
+                      ListaChaves[0] + "';"
 
-            if(param1 and param2 and param3):
+            if (param1 and param2 and param3):
                 cursor.execute(Comando)
                 connection.commit()
                 connection.close()
@@ -161,8 +184,9 @@ def ChamaCamadaPersistenciaUpdateConta(ListaChaves,param1,param2,param3):
                 cursor.close()
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
+
 
 def ChamaCamadaPersistenciaServidor():
     try:
@@ -185,8 +209,9 @@ def ChamaCamadaPersistenciaServidor():
             else:
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
+
 
 def ChamaCamadaPersistenciaEscolhePersonagem(ListaChaves):
     try:
@@ -199,7 +224,8 @@ def ChamaCamadaPersistenciaEscolhePersonagem(ListaChaves):
         )
         if connection.is_connected():
             cursor = connection.cursor()
-            Comando = "SELECT Nome FROM Personagem WHERE ContaUsuario_Login = '" + ListaChaves[0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "';"
+            Comando = "SELECT Nome FROM Personagem WHERE ContaUsuario_Login = '" + ListaChaves[
+                0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "';"
             cursor.execute(Comando)
             record = cursor.fetchall()
             connection.close()
@@ -209,10 +235,11 @@ def ChamaCamadaPersistenciaEscolhePersonagem(ListaChaves):
             else:
                 return []
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
-    
-def ChamaCamadaPersistenciaExcluiPersonagem(ListaChaves,param1):
+
+
+def ChamaCamadaPersistenciaExcluiPersonagem(ListaChaves, param1):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -224,12 +251,22 @@ def ChamaCamadaPersistenciaExcluiPersonagem(ListaChaves,param1):
         if connection.is_connected():
             cursor = connection.cursor()
             Comando = "DELETE FROM Personagem_has_Arma WHERE Personagem_idPersonagem = (" \
-                  "SELECT idPersonagem FROM PERSONAGEM WHERE Nome = '"+param1+"' AND ContaUsuario_Login = '"+ListaChaves[0]+"' AND Servidor_NomeServidor = '"+ListaChaves[1]+"');"
+                      "SELECT idPersonagem FROM Personagem WHERE Nome = '" + param1 + "' AND ContaUsuario_Login = '" + \
+                      ListaChaves[0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "');"
             cursor.execute(Comando)
             Comando = "DELETE FROM Personagem_has_Roupa WHERE Personagem_idPersonagem = (" \
-                      "SELECT idPersonagem FROM PERSONAGEM WHERE NOME = '"+param1+"' AND ContaUsuario_Login = '"+ListaChaves[0]+"' AND Servidor_NomeServidor = '"+ListaChaves[1]+"');"
+                      "SELECT idPersonagem FROM Personagem WHERE NOME = '" + param1 + "' AND ContaUsuario_Login = '" + \
+                      ListaChaves[0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "');"
             cursor.execute(Comando)
-            Comando ="DELETE FROM Personagem WHERE Nome = '"+param1+"' AND ContaUsuario_Login = '"+ListaChaves[0]+"' AND Servidor_NomeServidor = '"+ListaChaves[1]+"';"
+            Comando = "DELETE FROM Personagem WHERE Nome = '" + param1 + "' AND ContaUsuario_Login = '" + ListaChaves[
+                0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "';"
+            cursor.execute(Comando)
+            Comando = "SELECT NumeroDeJogadores FROM Servidor WHERE NomeServidor ='" + ListaChaves[1] + "';"
+            cursor.execute(Comando)
+            record = cursor.fetchone()
+            param7 = record[0] - 1
+            Comando = "UPDATE Servidor SET NumeroDeJogadores = '" + str(param7) + "' WHERE NomeServidor ='" + \
+                      ListaChaves[1] + "';"
             cursor.execute(Comando)
             connection.commit()
             connection.close()
@@ -237,11 +274,11 @@ def ChamaCamadaPersistenciaExcluiPersonagem(ListaChaves,param1):
             return True
 
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaEscolheClasse():
 
+def ChamaCamadaPersistenciaEscolheClasse():
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -262,11 +299,11 @@ def ChamaCamadaPersistenciaEscolheClasse():
             else:
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaExcluiConta(ListaChaves):
 
+def ChamaCamadaPersistenciaExcluiConta(ListaChaves):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -279,17 +316,18 @@ def ChamaCamadaPersistenciaExcluiConta(ListaChaves):
             cursor = connection.cursor()
             Comando = "DELETE FROM Personagem WHERE ContaUsuario_Login = '" + ListaChaves[0] + "';"
             cursor.execute(Comando)
-            Comando = "DELETE FROM ContaUsuario WHERE Login = '"+ListaChaves[0]+"';"
+            Comando = "DELETE FROM ContaUsuario WHERE Login = '" + ListaChaves[0] + "';"
             cursor.execute(Comando)
             connection.commit()
             connection.close()
             cursor.close()
             return True
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
 
-def ChamaCamadaPersistenciaUpdateNome(ListaChaves,param1):
+
+def ChamaCamadaPersistenciaUpdateNome(ListaChaves, param1):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -300,11 +338,14 @@ def ChamaCamadaPersistenciaUpdateNome(ListaChaves,param1):
         )
         if connection.is_connected():
             cursor = connection.cursor()
-            Comando = "SELECT * FROM Personagem  WHERE Nome = '"+param1+"' AND ContaUsuario_Login = '"+ListaChaves[0]+"' AND Servidor_NomeServidor = '"+ListaChaves[1]+"';"
+            Comando = "SELECT * FROM Personagem  WHERE Nome = '" + param1 + "' AND ContaUsuario_Login = '" + \
+                      ListaChaves[0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "';"
             cursor.execute(Comando)
             record = cursor.fetchone()
-            if(not record and param1):
-                Comando = "UPDATE Personagem SET Nome = '"+param1+"' WHERE Nome = '"+ListaChaves[2]+"' AND ContaUsuario_Login = '"+ListaChaves[0]+"' AND Servidor_NomeServidor = '"+ListaChaves[1]+"';"
+            if (not record and param1):
+                Comando = "UPDATE Personagem SET Nome = '" + param1 + "' WHERE Nome = '" + ListaChaves[
+                    2] + "' AND ContaUsuario_Login = '" + ListaChaves[0] + "' AND Servidor_NomeServidor = '" + \
+                          ListaChaves[1] + "';"
                 cursor.execute(Comando)
                 connection.commit()
                 connection.close()
@@ -315,8 +356,71 @@ def ChamaCamadaPersistenciaUpdateNome(ListaChaves,param1):
                 cursor.close()
                 return False
     except Error as e:
-        print("erro na execução do script: ",e)
+        print("erro na execução do script: ", e)
     return False
+
+
+def RecuperaIDPersonagem(ListaChaves):
+    try:
+        connection = mysql.connector.connect(
+            host=host,
+            database=database,
+            user=user,
+            password=password,
+            port=port
+        )
+        if connection.is_connected():
+            cursor = connection.cursor()
+            Comando = "Select idPersonagem from Personagem where ContaUsuario_Login = '" + ListaChaves[
+                0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "' AND Nome = '" + ListaChaves[2] + "';"
+            cursor.execute(Comando)
+            record = cursor.fetchone()
+            id, = record
+            connection.close()
+            cursor.close()
+            return int(id)
+    except Error as e:
+        print("erro na execução do script: ", e)
+    return 0
+
+
+def ChamaCamadaPersistenciaDeletaItens(idPersonagem):
+    try:
+        connection = mysql.connector.connect(
+            host=host,
+            database=database,
+            user=user,
+            password=password,
+            port=port
+        )
+        if connection.is_connected():
+            cursor = connection.cursor()
+            Comando = "select min(Arma_idArma) into @ids from Personagem_has_Arma INNER join Arma where idArma = Arma_idArma " \
+                      "and Personagem_idPersonagem = '" + str(idPersonagem) + "';"
+            cursor.execute(Comando)
+            Comando = "DELETE FROM Personagem_has_Arma where Personagem_idPersonagem = '" + str(
+                idPersonagem) + "' and Arma_idArma > @ids;"
+            cursor.execute(Comando)
+            Comando = "select min(Roupa_idRoupa) into @ids from Personagem_has_Roupa INNER join Roupa where idRoupa = Roupa_idRoupa " \
+                      "and Personagem_idPersonagem = '" + str(idPersonagem) + "';"
+            cursor.execute(Comando)
+            Comando = "DELETE FROM Personagem_has_Roupa where Personagem_idPersonagem = '" + str(
+                idPersonagem) + "' and Roupa_idRoupa > @ids;"
+            cursor.execute(Comando)
+            Comando = "SELECT min(idLocal) into @idL from Local"
+            cursor.execute(Comando)
+            Comando = "UPDATE Personagem SET Nivel = 1 and Local_idLocal = @idL where idPersonagem = '" + str(
+                idPersonagem) + "';"
+            cursor.execute(Comando)
+            connection.commit()
+            connection.close()
+            cursor.close()
+            return True
+
+    except Error as e:
+        print("erro na execução do script: ", e)
+    return False
+
 
 def ChamaCamadaPersistenciaRecuperaImagem(tela, nome_monstro):
     try:
@@ -342,69 +446,6 @@ def ChamaCamadaPersistenciaRecuperaImagem(tela, nome_monstro):
 
     except mysql.connector.Error as error:
         print("erro na execução do script: ",error)
-
-
-"""
-def Fechaconexao():
-    if connection.is_connected():
-        cursor.close()
-        connection.close()
-"""
-def RecuperaIDpersonagem(ListaChaves):
-    try:
-        connection = mysql.connector.connect(
-            host=host,
-            database=database,
-            user=user,
-            password=password,
-            port=port
-        )
-        if connection.is_connected():
-            cursor = connection.cursor()
-            Comando = "Select idPersonagem from personagem where ContaUsuario_Login = '" + ListaChaves[0] + "' AND Servidor_NomeServidor = '" + ListaChaves[1] + "' AND Nome = '" + ListaChaves[2] + "';"
-            cursor.execute(Comando)
-            record = cursor.fetchone()
-            id, = record
-            connection.close()
-            cursor.close()
-            return int(id)
-    except Error as e:
-        print("erro na execução do script: ",e)
-    return 0
-
-def ChamaCamadaPersistenciaDeletaItens(idPersonagem):
-    try:
-        connection = mysql.connector.connect(
-            host=host,
-            database=database,
-            user=user,
-            password=password,
-            port=port
-        )
-        if connection.is_connected():
-            cursor = connection.cursor()
-            Comando = "select min(Arma_idArma) into @ids from personagem_has_arma INNER join Arma where idArma = Arma_idArma " \
-                      "and Personagem_idPersonagem = "+str(idPersonagem)+";"
-            cursor.execute(Comando)
-            Comando = "DELETE FROM personagem_has_arma where Personagem_idPersonagem = "+str(idPersonagem)+" and Arma_idArma > @ids;"
-            cursor.execute(Comando)
-            Comando = "select min(Roupa_idRoupa) into @ids from personagem_has_roupa INNER join Roupa where idRoupa = Roupa_idRoupa " \
-                      "and Personagem_idPersonagem = " + str(idPersonagem) + ";"
-            cursor.execute(Comando)
-            Comando = "DELETE FROM personagem_has_roupa where Personagem_idPersonagem = " + str(idPersonagem) + " and Roupa_idRoupa > @ids;"
-            cursor.execute(Comando)
-            Comando = "SELECT min(idLocal) into @idL from Local"
-            cursor.execute(Comando)
-            Comando = "UPDATE Personagem SET Nivel = 1, Local_idLocal = @idL where idPersonagem = " + str(idPersonagem)
-            cursor.execute(Comando)
-            connection.commit()
-            connection.close()
-            cursor.close()
-            return True
-
-    except Error as e:
-        print("erro na execução do script: ",e)
-    return False
 
 
 ######################################################################################################
