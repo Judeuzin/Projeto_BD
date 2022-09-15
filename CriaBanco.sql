@@ -435,6 +435,22 @@ VALUES ("Malik",1,"Asgard","Asgard",@idA,@idR,@idL,1);
 Select idPersonagem into @idP from Personagem where Nome = "Malik";
 INSERT INTO personagem_has_arma VALUES (@idP,"Asgard","Asgard",@idA);
 INSERT INTO personagem_has_roupa VALUES (@idP,"Asgard","Asgard",@idR);
+UPDATE servidor set NumeroDeJogadores = 5 where NomeServidor = 'Asgard';
+
+DELIMITER //
+DROP VIEW IF EXISTS JogadoresRegistradores
+CREATE VIEW JogadoresRegistradores AS
+    SELECT 
+      Personagem.Servidor_NomeServidor,Servidor.NumeroDeJogadores, Classe.Nome, COUNT(*) AS NumberOfPersonagens
+    FROM 
+      Personagem,Classe,Servidor
+    WHERE
+      Personagem.Classe_idClasse = Classe.idClasse AND Servidor.NomeServidor = Personagem.Servidor_NomeServidor
+    GROUP BY
+      Personagem.Servidor_NomeServidor, Personagem.Classe_idClasse
+    ORDER BY
+      Servidor.NumeroDeJogadores,Personagem.Servidor_NomeServidor, Classe.Nome;
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS busca_drops_monstro $$
